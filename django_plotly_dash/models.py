@@ -29,6 +29,7 @@ from django.db import models
 from django.contrib import admin
 from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 from .dash_wrapper import get_local_stateless_by_name, get_local_stateless_list, wid2str, DjangoDash
 
@@ -123,7 +124,8 @@ class DashApp(models.Model):
     instance_name = models.CharField(max_length=100, unique=True,
                                      blank=True, null=False)
     slug = models.SlugField(max_length=110, unique=True, blank=True)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=False, null=True, blank=True)
+    
     # If mandating postgresql then this could be a JSONField
     base_state = models.TextField(null=False, default="{}")
 
